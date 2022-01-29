@@ -60,7 +60,8 @@ export default {
         }
     },
     created(){
-        this.cart = this.$root.cart
+        // this.cart = this.$root.cart;
+        // this.cart = JSON.parse(localStorage.getItem('cart'));
     }
 }
 </script>

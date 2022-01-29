@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Master>
       <div v-if="is_load" class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
           <Loader></Loader>
         </div>
       </div>
-      <div v-else class="container m-top">
+
+      <div v-else class="container">
         <div class="row">
           <div class="col-12">
             <div v-if="is_load" class="d-flex justify-content-center align-items-center min-vh-100">
@@ -14,6 +14,9 @@
             </div>
             <div v-else>
               <div class="row">
+                <div class="text-center fw-bolder h5 mt-2">
+                  Just For You
+                </div>
                 <div v-for="(l,i) in products" :key="i" class="col-6 col-md-4 col-lg-2">
                   <!--Product Card-->
                   <div class="card product-card">
@@ -33,7 +36,7 @@
                           <br>
                           <span>{{ l.price }}$</span>
                         </div>
-                        <button class="btn btn-info btn-sm text-white" @click="addToCart(l)">
+                        <button class="btn btn-info btn-sm text-white btn-sm" @click="addToCart(l)">
                           <i class="fas fa-cart-plus mb-0" style="font-size:15px"></i>
                         </button>
                       </div>
@@ -46,17 +49,20 @@
           </div>
         </div>
       </div>
-    </Master>
+
+      <div class="m-5 text-center">
+        <router-link to="/product" class="nav-link link-style">view all products</router-link>
+      </div>
+
   </div>
 </template>
 
 <script>
 import Loader from "../Component/Loader.vue";
-import Master from "../layout/Master.vue";
 import axios from "axios";
 export default {
-  components: { Master, Loader },
-  name: "Product",
+  components: { Loader },
+  name: "PreviewProduct",
 
   data: function () {
     return {
@@ -68,12 +74,12 @@ export default {
     addToCart(p){
       let cart = this.$root.cart
       let isincart = cart.find((v)=>{
-          return v.id === p.id
+        return v.id === p.id
       });
       if(isincart){
-          isincart.qty++;
+        isincart.qty++;
       }else{
-          cart.push({...p,qty:1});
+        cart.push({...p,qty:1});
       }
     },
     detail(p){
@@ -84,8 +90,8 @@ export default {
 
   mounted() {
     axios.get("https://fakestoreapi.com/products").then((res) => {
-        this.products = res.data;
-        this.is_load = false;
+      this.products = res.data.slice(0,12);
+      this.is_load = false;
     });
   },
 };

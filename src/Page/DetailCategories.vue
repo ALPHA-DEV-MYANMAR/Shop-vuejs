@@ -14,7 +14,7 @@
             </div>
             <div v-else>
               <div class="row">
-                <div v-for="(l,i) in products" :key="i" class="col-6 col-md-4 col-lg-2">
+                <div v-for="(l,i) in cats" :key="i" class="col-6 col-md-4 col-lg-2">
                   <!--Product Card-->
                   <div class="card product-card">
                     <div class="product-card-img">
@@ -33,7 +33,7 @@
                           <br>
                           <span>{{ l.price }}$</span>
                         </div>
-                        <button class="btn btn-info btn-sm text-white" @click="addToCart(l)">
+                        <button class="btn btn-info btn-sm text-white btn-sm" @click="addToCart(l)">
                           <i class="fas fa-cart-plus mb-0" style="font-size:15px"></i>
                         </button>
                       </div>
@@ -51,29 +51,28 @@
 </template>
 
 <script>
-import Loader from "../Component/Loader.vue";
 import Master from "../layout/Master.vue";
+import Loader from "../Component/Loader.vue";
 import axios from "axios";
 export default {
-  components: { Master, Loader },
-  name: "Product",
-
+  components: { Master , Loader },
+  name: "DetailCategories",
   data: function () {
     return {
       is_load: true,
-      products: [],
+      cats: [],
     };
   },
   methods:{
     addToCart(p){
       let cart = this.$root.cart
       let isincart = cart.find((v)=>{
-          return v.id === p.id
+        return v.id === p.id
       });
       if(isincart){
-          isincart.qty++;
+        isincart.qty++;
       }else{
-          cart.push({...p,qty:1});
+        cart.push({...p,qty:1});
       }
     },
     detail(p){
@@ -83,9 +82,9 @@ export default {
   },
 
   mounted() {
-    axios.get("https://fakestoreapi.com/products").then((res) => {
-        this.products = res.data;
-        this.is_load = false;
+    axios.get("https://fakestoreapi.com/products/category/"+this.$route.params.name).then((res) => {
+      this.cats = res.data;
+      this.is_load = false;
     });
   },
 };

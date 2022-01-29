@@ -1,12 +1,11 @@
 <template>
-    <div class="container text-center" style="margin-top:100px">
-        <div class="spinner-grow" role="status">
-        </div>
-    </div>
+  <div class="spinner-grow text-info" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
 </template>
 
 <script>
 export default {
-    naem : 'Loader'
+    name : 'Loader'
 }
 </script>
